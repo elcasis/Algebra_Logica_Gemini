@@ -513,22 +513,25 @@
             const isClassCorrect = (chosenClassification === ex.c);
 
             if(isFormulaCorrect && isClassCorrect) {
-                feedback.innerText = "¡Correcto! Muy bien hecho.";
+                feedback.innerHTML = "<strong>¡Correcto!</strong> Muy bien hecho.";
                 feedback.className = "feedback success";
                 feedback.classList.remove('hidden');
-                
-                document.getElementById('btn-check').classList.add('hidden');
-                document.getElementById('btn-next').classList.remove('hidden');
             } else {
-                let msg = "Incorrecto. ";
-                if(!isFormulaCorrect && isClassCorrect) msg += "La reducción no es la esperada.";
-                else if(isFormulaCorrect && !isClassCorrect) msg += "La clasificación es incorrecta.";
-                else msg += "Ambas partes son incorrectas.";
+                let msg = "<strong>Incorrecto.</strong><br>";
+                if(!isFormulaCorrect && isClassCorrect) msg += "La reducción no es la esperada.<br>";
+                else if(isFormulaCorrect && !isClassCorrect) msg += "La clasificación es incorrecta.<br>";
+                else msg += "Ambas partes son incorrectas.<br>";
                 
-                feedback.innerText = msg + " ¡Inténtalo de nuevo!";
+                msg += `La respuesta correcta era: <strong>${ex.r}</strong> (${ex.c})`;
+                
+                feedback.innerHTML = msg;
                 feedback.className = "feedback error";
                 feedback.classList.remove('hidden');
             }
+
+            // Mostrar siempre el botón Siguiente y ocultar Comprobar
+            document.getElementById('btn-check').classList.add('hidden');
+            document.getElementById('btn-next').classList.remove('hidden');
         }
 
         function nextExercise() {
