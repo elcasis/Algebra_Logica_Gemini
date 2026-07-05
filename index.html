@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Lógica Matemática</title>
+    <style>
+        :root {
+            --bg-color: #000000;
+            --text-color: #FFFFFF;
+            --primary-color: #00FFCC;
+            --secondary-color: #FF00FF;
+            --warning-color: #FFFF00;
+            --button-bg: #1A1A1A;
+            --button-hover: #333333;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Courier New', Courier, monospace, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 1.2rem; /* Tamaño de fuente grande para móviles */
+        }
+
+        /* Utilidades */
+        .hidden { display: none !important; }
+        .text-center { text-align: center; }
+        .text-primary { color: var(--primary-color); }
+        .text-secondary { color: var(--secondary-color); }
+        .text-warning { color: var(--warning-color); }
+
+        /* Contenedores Principales */
+        .screen {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Pantalla de Inicio */
+        #home-screen {
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            text-align: center;
+            text-shadow: 0 0 10px var(--primary-color);
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: var(--secondary-color);
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 5px;
+        }
+
+        /* Botones */
+        .btn {
+            background-color: var(--button-bg);
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            padding: 20px 30px;
+            font-size: 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 400px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .btn:active {
+            background-color: var(--primary-color);
+            color: var(--bg-color);
+        }
+
+        .btn-secondary {
+            color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        .btn-secondary:active {
+            background-color: var(--secondary-color);
+            color: var(--bg-color);
+        }
+
+        /* Barra de navegación interior */
+        .nav-bar {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .btn-back {
+            background: none;
+            border: none;
+            color: var(--warning-color);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 10px 0;
+            text-decoration: underline;
+        }
+
+        /* Teoría */
+        .theory-section {
+            overflow-y: auto;
+            line-height: 1.6;
+        }
+        .concept-box {
+            border: 1px solid #444;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            background-color: #0a0a0a;
+        }
+
+        .concept-box strong {
+            color: var(--warning-color);
+            font-size: 1.3rem;
+        }
+
+        /* Ejercicios */
+        .exercise-container {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            color: #888;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .formula-card {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 2px dashed var(--secondary-color);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            min-height: 250px;
+        }
+
+        .formula {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--text-color);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .result-box {
+            text-align: center;
+            animation: fadeIn 0.5s;
+        }
+
+        .reduction {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .classification {
+            font-size: 1.5rem;
+            color: var(--warning-color);
+            font-weight: bold;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Pantalla de Inicio -->
+    <div id="home-screen" class="screen">
+        <h1>Lógica Matemática</h1>
+        <button class="btn" onclick="showScreen('theory-screen')">Ver Teoría</button>
+        <button class="btn btn-secondary" onclick="startExercises()">Ir a Ejercicios</button>
+    </div>
+
+    <!-- Pantalla de Teoría -->
+    <div id="theory-screen" class="screen hidden">
+        <div class="nav-bar">
+            <button class="btn-back" onclick="showScreen('home-screen')">&lt; Volver al Inicio</button>
+        </div>
+        <div class="theory-section">
+            <h2>Conceptos Clave</h2>
+            
+            <div class="concept-box">
+                <strong>Tautología:</strong>
+                <p>Una proposición compuesta que siempre es CIERTA (V), sin importar el valor de verdad de las proposiciones atómicas que la conforman.</p>
+            </div>
+
+            <div class="concept-box">
+                <strong>Contradicción (Absurdo):</strong>
+                <p>Una proposición compuesta que siempre es FALSA (F), independientemente del valor de verdad de sus componentes.</p>
+            </div>
+
+            <div class="concept-box">
+                <strong>Contingencia:</strong>
+                <p>Una proposición que unas veces es cierta y otras veces es falsa, dependiendo de los valores de las proposiciones atómicas.</p>
+            </div>
+
+            <h2>Reglas de Inferencia Básicas</h2>
+            <div class="concept-box">
+                <ul style="padding-left: 20px;">
+                    <li><strong class="text-primary">Modus Ponens:</strong> ((p → q) ∧ p) ⇒ q</li>
+                    <li><strong class="text-primary">Modus Tollens:</strong> ((p → q) ∧ ¬q) ⇒ ¬p</li>
+                    <li><strong class="text-primary">Doble Negación:</strong> p ⇔ ¬(¬p)</li>
+                    <li><strong class="text-primary">Leyes de Morgan:</strong> 
+                        <br>¬(p ∨ q) ⇔ ¬p ∧ ¬q
+                        <br>¬(p ∧ q) ⇔ ¬p ∨ ¬q
+                    </li>
+                    <li><strong class="text-primary">Silogismo Disyuntivo:</strong> ((p ∨ q) ∧ ¬p) ⇒ q</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla de Ejercicios -->
+    <div id="exercise-screen" class="screen hidden">
+        <div class="nav-bar">
+            <button class="btn-back" onclick="showScreen('home-screen')">&lt; Volver al Inicio</button>
+        </div>
+        
+        <div class="exercise-container">
+            <div class="status-bar">
+                <span id="exercise-counter">Ejercicio 1 de 25</span>
+                <span id="remaining-counter">Restantes: 24</span>
+            </div>
+
+            <div class="formula-card">
+                <div class="formula" id="current-formula">p ∨ ¬p</div>
+                
+                <div id="result-box" class="result-box hidden">
+                    <div class="reduction" id="current-reduction">V</div>
+                    <div class="classification" id="current-classification">Tautología</div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button id="btn-show" class="btn" onclick="showResult()">Ver Resultado</button>
+                <button id="btn-next" class="btn btn-secondary hidden" onclick="nextExercise()">Siguiente Ejercicio</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Base de datos de ejercicios
+        const ejerciciosDB = [
+            { f: "p ∨ ¬p", r: "V", c: "Tautología" },
+            { f: "p ∧ ¬p", r: "F", c: "Contradicción" },
+            { f: "p → p", r: "V", c: "Tautología" },
+            { f: "p → q", r: "¬p ∨ q", c: "Contingencia" },
+            { f: "¬(p ∨ q)", r: "¬p ∧ ¬q", c: "Contingencia" },
+            { f: "¬(p ∧ q)", r: "¬p ∨ ¬q", c: "Contingencia" },
+            { f: "p ∨ p", r: "p", c: "Contingencia" },
+            { f: "p ∧ p", r: "p", c: "Contingencia" },
+            { f: "p ∧ (p ∨ q)", r: "p", c: "Contingencia" },
+            { f: "p ∨ (p ∧ q)", r: "p", c: "Contingencia" },
+            { f: "((p → q) ∧ p) → q", r: "V", c: "Tautología" },
+            { f: "((p → q) ∧ ¬q) → ¬p", r: "V", c: "Tautología" },
+            { f: "(p ∨ q) ∧ ¬p", r: "¬p ∧ q", c: "Contingencia" },
+            { f: "((p ∨ q) ∧ ¬p) → q", r: "V", c: "Tautología" },
+            { f: "¬(¬p)", r: "p", c: "Contingencia" },
+            { f: "p ↔ p", r: "V", c: "Tautología" },
+            { f: "p ↔ ¬p", r: "F", c: "Contradicción" },
+            { f: "(p ∧ q) ∨ (p ∧ ¬q)", r: "p", c: "Contingencia" },
+            { f: "(p ∨ q) ∧ (p ∨ ¬q)", r: "p", c: "Contingencia" },
+            { f: "(p → q) ∨ (q → p)", r: "V", c: "Tautología" },
+            { f: "(p ∧ q) → p", r: "V", c: "Tautología" },
+            { f: "p → (p ∨ q)", r: "V", c: "Tautología" },
+            { f: "(p → q) ↔ (¬q → ¬p)", r: "V", c: "Tautología" },
+            { f: "(p ∧ q) ∧ ¬p", r: "F", c: "Contradicción" },
+            { f: "¬(p → q)", r: "p ∧ ¬q", c: "Contingencia" }
+        ];
+
+        let pendingExercises = [];
+        let currentIndex = 0;
+        let totalExercises = ejerciciosDB.length;
+
+        // Función para cambiar de pantalla
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+            document.getElementById(screenId).classList.remove('hidden');
+        }
+
+        // Iniciar la sesión de ejercicios
+        function startExercises() {
+            // Clonar y barajar la base de datos
+            pendingExercises = [...ejerciciosDB].sort(() => Math.random() - 0.5);
+            currentIndex = 0;
+            
+            showScreen('exercise-screen');
+            loadExercise();
+        }
+
+        function loadExercise() {
+            if (currentIndex >= totalExercises) {
+                // Finalizado
+                document.getElementById('current-formula').innerHTML = "¡Has completado todos los ejercicios!";
+                document.getElementById('result-box').classList.add('hidden');
+                document.getElementById('btn-show').classList.add('hidden');
+                document.getElementById('btn-next').classList.add('hidden');
+                
+                document.getElementById('exercise-counter').innerText = `Finalizado`;
+                document.getElementById('remaining-counter').innerText = `0 restantes`;
+                return;
+            }
+
+            const ex = pendingExercises[currentIndex];
+            
+            // Actualizar UI
+            document.getElementById('current-formula').innerText = ex.f;
+            document.getElementById('current-reduction').innerText = "= " + ex.r;
+            document.getElementById('current-classification').innerText = ex.c;
+            
+            // Ocultar resultados y resetear botones
+            document.getElementById('result-box').classList.add('hidden');
+            document.getElementById('btn-show').classList.remove('hidden');
+            document.getElementById('btn-next').classList.add('hidden');
+
+            // Actualizar contadores
+            document.getElementById('exercise-counter').innerText = `Ejercicio ${currentIndex + 1} de ${totalExercises}`;
+            document.getElementById('remaining-counter').innerText = `Quedan: ${totalExercises - currentIndex - 1}`;
+        }
+
+        function showResult() {
+            document.getElementById('result-box').classList.remove('hidden');
+            document.getElementById('btn-show').classList.add('hidden');
+            document.getElementById('btn-next').classList.remove('hidden');
+        }
+
+        function nextExercise() {
+            currentIndex++;
+            loadExercise();
+        }
+    </script>
+</body>
+</html>
